@@ -1,23 +1,32 @@
 const express = require('express');
+// adds colors to the server listener and console.logs
+const colors = require('colors');
+
+const friendsRouter = require('./routes/friends.router');
+const messagesRouter = require('./routes/messages.router');
+
 const app = express();
 const PORT = 3001;
 
-const colors = require('colors');
+// middleware set up
+app.use((req, res, next) => {
+  // console.log('We hit middleware')
+  // console.log(req.url);
+  const start = Date.now();
+  next();
+  const delta = Date.now() - start;
+  console.log(`${req.method} ${req.baseUrl}${req.url} ${delta}ms`);
+});
+app.use(express.json());
 
-app.get('/', (req,res) => {
-    res.send({
-        id:1,
-        name: 'Isac'
-    })
-})
+// CONTROLLERS
+// Friends
+// mounting the friends router
+app.use('/friends', friendsRouter);
 
-app.get('/messages',(req,res)=> {
-    res.send('<ul><li>Hello Albert</li></ul>');
-})
-app.post('/messages',(req,res)=> {
-    console.log('Updating messages...');
-})
+// Messages
+app.use('/messages', messagesRouter);
 
 app.listen(PORT, () => {
-  console.log(`listen on port http://localhost:${PORT}`.magenta);
+  console.log(`🚀 🌎 Server listening on http://localhost:${PORT}`.magenta);
 });
