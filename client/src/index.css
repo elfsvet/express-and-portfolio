@@ -16,3 +16,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#about, #portfolio, #technologies, #contacts {
+  height: 700px;
+}
